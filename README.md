@@ -16,22 +16,21 @@
 ### Association
 - has_many :items
 - has_many :comments
-- has_one :address
 - has_many :orders
 
 ## items テーブル
 
-| Column              | Type       | Options                        |
-| ------------------- | ---------- | ------------------------------ |
-| name                | string     | null: false                    |
-| detail              | text       | null: false                    |
-| category            | integer    | null: false                    |
-| condition           | integer    | null: false                    |
-| shipping_fee_burden | integer    | null: false                    |
-| shipping_area       | integer    | null: false                    |
-| shipping_day        | integer    | null: false                    |
-| price               | integer    | null: false                    |
-| user                | references | null: false, foreign_key: true |
+| Column                 | Type       | Options                        |
+| ---------------------- | ---------- | ------------------------------ |
+| name                   | string     | null: false                    |
+| detail                 | text       | null: false                    |
+| category_id            | integer    | null: false                    |
+| condition_id           | integer    | null: false                    |
+| shipping_fee_burden_id | integer    | null: false                    |
+| shipping_area_id       | integer    | null: false                    |
+| shipping_day_id        | integer    | null: false                    |
+| price                  | integer    | null: false                    |
+| user                   | references | null: false, foreign_key: true |
 
 * ※imageはActiveStorageで実装するためテーブルには含まない。
 
@@ -57,7 +56,7 @@
 | Column              | Type       | Options                        |
 | ------------------- | ---------- | ------------------------------ |
 | postal_code         | string     | null: false                    |
-| shipping_area       | integer    | null: false                    |
+| shipping_area_id    | integer    | null: false                    |
 | city                | string     | null: false                    |
 | address_line1       | string     | null: false                    |
 | address_line2       | string     |                                |
