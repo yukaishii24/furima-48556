@@ -32,7 +32,7 @@ RSpec.describe Item, type: :model do
         expect(@item).to be_valid
       end
     
-      it 'priceが300円～9999999円であれば登録できる' do
+      it 'priceが半角数字の300円～9999999円であれば登録できる' do
         @item.price = Faker::Number.between(from: 300, to: 9_999_999)
         expect(@item).to be_valid
       end
@@ -91,6 +91,16 @@ RSpec.describe Item, type: :model do
         @item.price = [Faker::Number.between(from: 0, to: 300), Faker::Number.between(from: 9_999_999, to: 99_999_999)].sample
         @item.valid?
         expect(@item.errors.full_messages).to include("Price is invalid")
+      end
+      it 'priceが全角数字では登録できない' do
+      @item.price = Faker::Base.numerify('###').tr('0-9', '０-９')
+      @item.valid?
+      expect(@item.errors.full_messages).to include("Price is invalid")
+      end
+      it 'priceが文字列では登録できない' do
+      @item.price = Faker::Lorem.word
+      @item.valid?
+      expect(@item.errors.full_messages).to include("Price is invalid")
       end
     end
   end
