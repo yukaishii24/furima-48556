@@ -11,38 +11,87 @@ RSpec.describe Item, type: :model do
         expect(@item).to be_valid
       end
 
-      context 'idが0以外の場合' do
-        it 'category_idが0以外であれば登録できること' do
-          @item.category_id = rand(1..10)
-          expect(@item).to be_valid
-        end
-
-        it 'condition_idが0以外であれば登録できること' do
-          @item.condition_id = rand(1..6)
-          expect(@item).to be_valid
-        end
-      
-        it 'shipping_fee_burden_idが0以外であれば登録できること' do
-          @item.shipping_fee_burden_id = [1, 2].sample
-          expect(@item).to be_valid
-        end
-
-        it 'shipping_area_idが0以外であれば登録できること' do
-          @item.shipping_area_id = rand(1..47)
-          expect(@item).to be_valid
-        end
-
-        it 'shipping_day_idが0以外であれば登録できること' do
-          @item.shipping_day_id= [1, 2, 3].sample
-          expect(@item).to be_valid
-        end
+      it 'category_idが0以外であれば登録できる' do
+        @item.category_id = rand(1..10)
+        expect(@item).to be_valid
+      end
+      it 'condition_idが0以外であれば登録できる' do
+        @item.condition_id = rand(1..6)
+        expect(@item).to be_valid
+      end    
+      it 'shipping_fee_burden_idが0以外であれば登録できる' do
+        @item.shipping_fee_burden_id = [1, 2].sample
+        expect(@item).to be_valid
+      end
+      it 'shipping_area_idが0以外であれば登録できる' do
+        @item.shipping_area_id = rand(1..47)
+        expect(@item).to be_valid
+      end
+      it 'shipping_day_idが0以外であれば登録できる' do
+        @item.shipping_day_id= [1, 2, 3].sample
+        expect(@item).to be_valid
       end
     
-      it '価格が300円～9999999円であれば登録できること' do
+      it 'priceが300円～9999999円であれば登録できる' do
         @item.price = Faker::Number.between(from: 300, to: 9_999_999)
         expect(@item).to be_valid
       end
     end
-  
+
+    context '新規登録できない場合' do
+      it 'imageが空では登録できない' do
+        @item.image = ''
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Image can't be blank")
+      end
+      it 'nameが空では登録できない' do
+        @item.name = ''
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Name can't be blank")
+      end
+      it 'detailが空では登録できない' do
+        @item.detail = ''
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Detail can't be blank")
+      end
+
+      it 'category_idが0では登録できない' do
+        @item.category_id = 0
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category can't be blank")
+      end
+      it 'condition_idが0では登録できない' do
+        @item.condition_id = 0
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Condition can't be blank")
+      end
+      it 'shipping_fee_burden_idが0では登録できない' do
+        @item.shipping_fee_burden_id = 0
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Shipping fee burden can't be blank")
+      end
+      it 'shipping_area_idが0では登録できない' do
+        @item.shipping_area_id = 0
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Shipping area can't be blank")
+      end
+      it 'shipping_day_idが0では登録できない' do
+        @item.shipping_day_id = 0
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Shipping day can't be blank")
+      end
+
+      it 'priceが空では登録できない' do
+        @item.price = ''
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price can't be blank")
+      end
+
+      it 'priceが300円以下か9999999円以上では登録できない' do
+        @item.price = [Faker::Number.between(from: 0, to: 300), Faker::Number.between(from: 9_999_999, to: 99_999_999)].sample
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price is invalid")
+      end
+    end
   end
 end
