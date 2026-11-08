@@ -102,6 +102,11 @@ RSpec.describe Item, type: :model do
       @item.valid?
       expect(@item.errors.full_messages).to include("Price is invalid")
       end
+
+      it 'userが紐づいていない場合は登録できない' do
+      @item = FactoryBot.build(:item, user: nil)
+      expect(@item).to be_invalid
+      end
     end
   end
 end
