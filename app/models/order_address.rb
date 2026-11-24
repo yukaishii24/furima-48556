@@ -12,7 +12,7 @@ class OrderAddress
   validates :token
   end
 
-  validates :shipping_area_id, numericality: {other_than: 1, message: "select"}
+  validates :shipping_area_id, numericality: { other_than: 0 , message: "can't be blank"}
 
   def save
     order = Order.create(user_id: user_id, item_id: item_id)
