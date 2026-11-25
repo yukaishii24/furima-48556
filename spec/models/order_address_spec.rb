@@ -22,7 +22,7 @@ RSpec.describe OrderAddress, type: :model do
     end
 
     context '新規登録できない場合' do
-      it 'postal_code' do
+      it 'postal_codeが空では登録できない' do
         @order_address.postal_code = ''
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Postal code can't be blank")
@@ -56,6 +56,48 @@ RSpec.describe OrderAddress, type: :model do
         @order_address.shipping_area_id = 0
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Shipping area can't be blank")
+      end
+
+      it 'postal_codeにハイフンが含まれていないと無効であること' do
+        @order_address.postal_code = '1234567'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Postal code imput correctly")
+      end
+
+      it 'postal_codeが「3桁-4桁」の形式でないと無効であること' do
+        @order_address.postal_code = '12-34567'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Postal code imput correctly")
+      end
+
+      it 'postal_codeに全角数字が含まれていると無効であること' do
+        @order_address.postal_code = '１２３-４５６７'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Postal code imput correctly")
+      end
+
+      it 'phone_numberが9桁以下では無効であること' do
+        @order_address.phone_number = Faker::Number.leading_zero_number(digits: 9)
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Phone number imput correctly")
+      end
+
+      it 'phone_numberが12桁以上では無効であること' do
+        @order_address.phone_number = Faker::Number.leading_zero_number(digits: 12)
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Phone number imput correctly")
+      end
+
+      it 'phone_numberにハイフンが含まれていると無効であること' do
+        @order_address.phone_number = '090-1234-5678'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Phone number imput correctly")
+      end
+
+      it 'phone_numberに全角数字が含まれていると無効であること' do
+        @order_address.phone_number = '０９０１２３４５６７８'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Phone number imput correctly")
       end
 
     end

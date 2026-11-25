@@ -8,7 +8,7 @@ class OrderAddress
   validates :postal_code, format: {with: /\A[0-9]{3}-[0-9]{4}\z/, message: "imput correctly"}
   validates :city
   validates :address_line1
-  validates :phone_number, format: {with: /\A0\d{9,10}\z/, message: "imput only number"}
+  validates :phone_number, format: {with: /\A0\d{9,10}\z/, message: "imput correctly"}
   validates :token
   end
 
