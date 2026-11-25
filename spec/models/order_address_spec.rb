@@ -19,12 +19,6 @@ RSpec.describe OrderAddress, type: :model do
         expect(@order_address).to be_valid
       end
 
-      it 'postal_codeが「3桁ハイフン4桁」で半角文字列であること' do
-      end
-
-      it 'phone_numberは10桁以上11桁以内の半角数値であること' do
-      end
-
     end
 
     context '新規登録できない場合' do
